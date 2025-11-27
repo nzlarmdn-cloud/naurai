@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arkana Sejarah | Arsip Klasik Dunia</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =======================================
+           1. VARIABEL WARNA & DASAR
+           ======================================= */
+        :root {
+            --paper-krem: #F7F3E3; 
+            --sepia-dark: #4B3832; 
+            --border-brown: #8D6E63; 
+            --gold-accent: #B8860B; 
+            --dark-red: #8B0000; 
+            --light-bg: #EDECE4; 
+        }
+
+        body {
+            background-color: var(--paper-krem);
+            color: var(--sepia-dark);
+            font-family: 'Crimson Text', serif;
+            padding-top: 60px;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--sepia-dark);
+            font-weight: 700;
+        }
+        .page-section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border-brown);
+        }
+
+        /* =======================================
+           2. NAVIGASI & HEADER
+           ======================================= */
+        .navbar {
+            background-color: var(--sepia-dark);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .navbar-brand {
+            color: var(--gold-accent) !important;
+            font-size: 1.8rem;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--gold-accent) !important;
+            text-shadow: 0 0 5px var(--paper-krem);
+        }
+        .masthead {
+            /* Contoh Background image */
+            background: linear-gradient(rgba(247, 243, 227, 0.8), rgba(247, 243, 227, 0.9)), url('https://images.unsplash.com/photo-1511265691079-c5c64c7a52f2?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            border-bottom: 3px double var(--border-brown);
+        }
+        #typewriter-text {
+            border-right: 3px solid var(--sepia-dark); 
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            color: var(--sepia-dark); 
+        }
+        .btn-vintage {
+            background-color: var(--sepia-dark);
+            color: var(--paper-krem);
+            border: 2px solid var(--gold-accent);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-vintage:hover {
+            background-color: var(--gold-accent);
+            color: var(--sepia-dark);
+        }
+
+        /* =======================================
+           3. KOMPONEN UTAMA (HIGHLIGHT, CARD, MODAL)
+           ======================================= */
+        /* Dokumen Highlight */
+        .dokumen-highlight {
+            background-color: white;
+            border: 1px dashed var(--gold-accent);
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .dokumen-highlight::before {
+            content: "ARSIP PILIHAN";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold-accent);
+            color: var(--sepia-dark);
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        /* Card Vintage */
+        .card-vintage {
+            background-color: white;
+            border: 5px solid var(--sepia-dark);
+            box-shadow: 10px 10px 0px rgba(75, 56, 50, 0.5); 
+            transition: transform 0.3s ease;
+        }
+        .card-img-vintage {
+            filter: sepia(0.8) grayscale(0.2); 
+        }
+        /* Modal Style */
+        .modal-content {
+            background-color: var(--paper-krem);
+            color: var(--sepia-dark);
+            border: 5px solid var(--sepia-dark);
+        }
+        .modal-header {
+            border-bottom: 2px solid var(--border-brown);
+        }
+        .modal-title {
+            color: var(--gold-accent);
+        }
+
+        /* =======================================
+           4. FITUR TAMBAHAN (PENGUMUMAN, TIMELINE)
+           ======================================= */
+        /* Papan Pengumuman */
+        .bulletin-board {
+            background-color: var(--paper-krem);
+            border: 5px double var(--dark-red);
+            padding: 2.5rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .bulletin-item {
+            border-bottom: 1px dashed var(--border-brown);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        .bulletin-item:last-child {
+            border-bottom: none;
+        }
+        /* Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 25px; 
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px; 
+            width: 10px;
+            height: 10px;
+            background-color: var(--gold-accent);
+            border-radius: 50%;
+            border: 2px solid var(--sepia-dark);
+        }
+        .timeline-year {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            color: var(--dark-red);
+            font-size: 1.2rem;
+        }
+        
+        /* =======================================
+           5. LABORATORIUM ARSIP (ALAT UNIK)
+           ======================================= */
+        .lab-container {
+            background-color: var(--light-bg); 
+            border: 10px solid #6D4C41; 
+            padding: 3rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .dekripsi-output {
+            min-height: 100px;
+            background-color: white;
+            border: 2px solid var(--sepia-dark);
+            padding: 1rem;
+            font-family: 'Playfair Display', serif; 
+            font-style: italic;
+            font-size: 1.2rem;
+            white-space: pre-wrap;
+            margin-top: 5px; 
+        }
+        .form-control {
+            border: 2px solid var(--sepia-dark) !important;
+            background-color: white !important;
+            color: var(--sepia-dark) !important;
+        }
+        .form-control:focus {
+            border-color: var(--gold-accent) !important;
+            box-shadow: 0 0 5px rgba(184, 134, 11, 0.5) !important;
+        }
+
+        /* Overlay Stempel */
+        .stempel-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg) scale(0.8);
+            z-index: 1060;
+            opacity: 0;
+            transition: all 0.5s ease-out;
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-red);
+            font-size: 2.5rem;
+            font-weight: 900;
+            border: 5px dashed var(--dark-red);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+        .stempel-show {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(-5deg) scale(1);
+        }
+
+        /* =======================================
+           6. FOOTER & KONTAK
+           ======================================= */
+        footer {
+            padding: 1rem 0;
+            background-color: var(--sepia-dark);
+            color: var(--paper-krem);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="stempelOverlay" class="stempel-overlay"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand" href="#masthead">ARKANA SEJARAH</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#masthead">Arsip Utama</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeri">Galeri Klasik</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#bulletin">Pengumuman</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#laboratorium">Laboratorium</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline">Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#koleksi">Koleksi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak Kami</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="masthead" id="masthead">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h1 class="text-uppercase mb-3 display-3">
+                        <span id="typewriter-text"></span>
+                    </h1>
+                    <p class="lead mb-4">Menguak lembaran demi lembaran kisah peradaban dunia, tersimpan rapi dalam arsip ini.</p>
+                    <a class="btn btn-vintage btn-lg text-uppercase fw-bold" href="#galeri">Telusuri Galeri Klasik</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-section" id="highlight">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="dokumen-highlight">
+                        <h3 class="text-center mb-4">Dokumen Pilihan Hari Ini</h3>
+                        <h4 style="color: var(--gold-accent); font-weight: 600;">Traktat Rahasia Konferensi Versailles</h4>
+                        <p class="small text-secondary">Kode Arsip: TX-1919-A-04 | Tanggal Ditemukan: 17 Juli 2024</p>
+                        <p>Manuskrip asli berisi poin-poin yang disembunyikan dari publik mengenai pembagian wilayah pasca-Perang Besar. Dokumen ini ditulis tangan dengan tinta hitam di atas kertas kulit binatang.</p>
+                        
+                        <a href="#" class="btn btn-sm btn-vintage float-end" 
+                           data-bs-toggle="modal" data-bs-target="#dokumenModal" 
+                           data-title="Traktat Rahasia Versailles" 
+                           data-content="### Isi Dokumen: Poin Kunci
+                           1. Klausul Rahasia 7: Pembagian kontrol atas sumber daya alam tertentu di koloni Afrika tidak diumumkan dalam traktat publik.
+                           2. Klausul Rahasia 12: Penetapan batas waktu tersembunyi untuk penarikan pasukan sekutu dari wilayah tertentu di Eropa Tengah, lebih lama dari yang diumumkan.
+                           3. Penandatanganan: Ditandatangani oleh diplomat dari Tiga Kekuatan Utama, menggunakan pena khusus."
+                           >Baca Isi Dokumen Penuh</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="bulletin" style="background-color: var(--light-bg);">
+        <div class="container">
+            <h2 class="text-center mb-5">Papan Pengumuman Arsip</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="bulletin-board">
+                        <div class="bulletin-item">
+                            <h4 style="color: var(--dark-red);">Pameran Baru: Misteri Atlantis</h4>
+                            <p class="small text-secondary">Tanggal: 1 Desember 2025</p>
+                            <p>Kami dengan bangga mengumumkan koleksi artefak dan manuskrip yang belum pernah dilihat sebelumnya, membahas teori dan spekulasi seputar kota Atlantis yang hilang.</p>
+                        </div>
+                        <div class="bulletin-item">
+                            <h4 style="color: var(--sepia-dark);">Perubahan Waktu Operasional Server</h4>
+                            <p class="small text-secondary">Tanggal: 27 November 2025</p>
+                            <p>Harap dicatat bahwa arsip digital akan mengalami downtime singkat untuk pemeliharaan server pada pukul 03.00 - 05.00 WIB.</p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                             <a class="small" style="color: var(--gold-accent);" 
+                                data-bs-toggle="collapse" 
+                                href="#arsipLama" 
+                                role="button" 
+                                aria-expanded="false" 
+                                aria-controls="arsipLama"
+                                id="toggleArsipBtn"
+                                >
+                                Lihat Semua Pengumuman Lama →
+                             </a>
+                        </div>
+
+                        <div class="collapse mt-4" id="arsipLama">
+                            <hr style="border-top: 2px dashed var(--dark-red);">
+                            <h5 class="text-center mb-3" style="color: var(--dark-red);">Arsip Pengumuman (Tahun Lalu)</h5>
+
+                            <div class="bulletin-item">
+                                <h4 style="color: var(--sepia-dark);">Seminar Virtual: Menguak Dokumen PD I</h4>
+                                <p class="small text-secondary">Tanggal: 18 Januari 2025</p>
+                                <p>Webinar khusus bersama Arsiparis Dr. Elara mengenai korespondensi rahasia saat Perang Dunia Pertama.</p>
+                            </div>
+                            <div class="bulletin-item">
+                                <h4 style="color: var(--sepia-dark);">Pemeliharaan Koleksi Manuskrip</h4>
+                                <p class="small text-secondary">Tanggal: 5 Desember 2024</p>
+                                <p>Koleksi Manuskrip Byzantium akan ditutup untuk publik selama 3 minggu untuk restorasi profesional.</p>
+                            </div>
+                            <div class="bulletin-item" style="border-bottom: none;">
+                                <h4 style="color: var(--sepia-dark);">Perekrutan Staf Arsip Baru</h4>
+                                <p class="small text-secondary">Tanggal: 15 September 2024</p>
+                                <p>Arkana Sejarah membuka kesempatan bagi Arsiparis junior untuk bergabung dengan tim kami.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="laboratorium">
+        <div class="container">
+            <h2 class="text-center mb-5">Laboratorium Arsip: Alat Unik</h2>
+            <div class="lab-container">
+                
+                <h3 class="mb-4">1. Dekripsi Manuskrip</h3>
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <label for="manuskripInput" class="form-label">Masukkan Teks Modern:</label>
+                        <textarea class="form-control" id="manuskripInput" rows="4" placeholder="Ketik pesan Anda di sini..."></textarea>
+                        <button class="btn btn-vintage mt-3 w-100" onclick="dekripsiManuskrip()">Dekripsi ke Gaya Klasik</button>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Output Manuskrip Kuno:</label>
+                        <div id="manuskripOutput" class="dekripsi-output">
+                            Teks hasil dekripsi akan muncul di sini...
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-top: 2px dashed var(--border-brown);">
+
+                <h3 class="mb-4 mt-5">2. Stempel Waktu Kuno</h3>
+                <div class="text-center">
+                    <p>Coba stempel dokumen digital dengan tanggal arsip otentik secara acak!</p>
+                    <button class="btn btn-vintage btn-lg" onclick="stempelWaktu()">Tekan untuk Stempel Arsip</button>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="galeri" style="background-color: var(--light-bg);">
+        <div class="container">
+            <h2 class="text-center mb-5">Galeri Foto Bersejarah</h2>
+            <div class="row" id="gallery-row-content">
+                <div class="col-md-4 mb-4">
+                    <div class="card card-vintage h-100">
+                        <img src="piramida.jpg" class="card-img-top card-img-vintage" alt="Piramida" height="250" style="object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: var(--gold-accent);">Penemuan Piramida</h5>
+                            <p class="card-text small">Dokumentasi pertama Ekspedisi Giza, 1890.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card-vintage h-100">
+                        <img src="jalur.jpg" class="card-img-top card-img-vintage" alt="Jalur Sutra" height="250" style="object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: var(--gold-accent);">Jalur Sutra Lama</h5>
+                            <p class="card-text small">Para pedagang melewati pegunungan pada abad ke-14.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card card-vintage h-100">
+                        <img src="Era Renaissance.jpg" class="card-img-top card-img-vintage" alt="Renaissance" height="250" style="object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: var(--gold-accent);">Era Renaissance</h5>
+                            <p class="card-text small">Kebangkitan Peradaban Modern Eropa, “Historie de France”.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-vintage" id="load-more-btn">Muat Lebih Banyak Arsip...</button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="page-section" id="timeline">
+        <div class="container">
+            <h2 class="text-center mb-5">Garis Waktu Peradaban Kunci</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="timeline-item">
+                        <p class="timeline-year">3500 SM - 500 M</p>
+                        <p class="mb-1">Era Kuno: Mesopotamia, Mesir, Yunani, dan Roma. Fokus pada fondasi hukum dan filosofi.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="timeline-year">500 M - 1500 M</p>
+                        <p class="mb-1">Abad Pertengahan: Periode kerajaan, pembangunan katedral besar, dan Jalur Sutra.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="timeline-year">1500 M - 1800 M</p>
+                        <p class="mb-1">Awal Modern: Penjelajahan, Reformasi, dan Revolusi Ilmiah. Dunia mulai terhubung.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="timeline-year">1800 M - 1945 M</p>
+                        <p class="mb-1">Revolusi Industri dan Perang Global: Teknologi dan konflik mengubah geopolitik secara drastis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="koleksi" style="background-color: var(--light-bg);">
+        <div class="container">
+            <h2 class="text-center mb-5">Koleksi Utama Berdasarkan Abad</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="p-3 text-center card-vintage-lite" style="border: 2px solid var(--border-brown); background-color: white;">
+                        <h4 style="color: var(--sepia-dark);">Abad Ke-15 & Ke-16</h4>
+                        <p class="small text-secondary">Periode Penjelajahan Besar & Penemuan Benua Baru.</p>
+                        <a href="#" class="small" style="color: var(--gold-accent);"
+                           data-bs-toggle="modal" data-bs-target="#dokumenModal" 
+                           data-title="Koleksi: Abad Penjelajahan" 
+                           data-content="### Ringkasan Abad 15 & 16
+                           Periode ini ditandai dengan eksplorasi global yang dipimpin oleh kekuatan Eropa. Tokoh-tokoh kunci termasuk Christopher Columbus dan Ferdinand Magellan. Penemuan rute baru memicu perdagangan rempah-rempah yang masif.
+                           <br><br>
+                           Dokumen Kunci: Peta Navigasi Portugis (1502), Catatan Harian Ekspedisi Vasco da Gama.">
+                           Lihat 120 Dokumen →</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="p-3 text-center card-vintage-lite" style="border: 2px solid var(--border-brown); background-color: white;">
+                        <h4 style="color: var(--sepia-dark);">Abad Ke-19</h4>
+                        <p class="small text-secondary">Revolusi Industri, Perang Saudara, & Era Victoria.</p>
+                        <a href="#" class="small" style="color: var(--gold-accent);"
+                           data-bs-toggle="modal" data-bs-target="#dokumenModal" 
+                           data-title="Koleksi: Abad 19" 
+                           data-content="### Ringkasan Abad 19
+                           Abad perubahan besar, ditandai dengan industrialisasi, kebangkitan kolonialisme, dan konflik ideologi. Penemuan teknologi seperti mesin uap dan telegraf mengubah komunikasi dan transportasi.
+                           <br><br>
+                           Dokumen Kunci: Paten Mesin Uap Watt (Replika), Surat-menyurat Abraham Lincoln.">
+                           Lihat 345 Dokumen →</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="p-3 text-center card-vintage-lite" style="border: 2px solid var(--border-brown); background-color: white;">
+                        <h4 style="color: var(--sepia-dark);">Abad Ke-20</h4>
+                        <p class="small text-secondary">Dua Perang Dunia, Perang Dingin, & Pendaratan di Bulan.</p>
+                        <a href="#" class="small" style="color: var(--gold-accent);"
+                           data-bs-toggle="modal" data-bs-target="#dokumenModal" 
+                           data-title="Koleksi: Abad 20" 
+                           data-content="### Ringkasan Abad 20
+                           Abad yang paling transformatif dan penuh gejolak. Ditandai dengan dua konflik global, perlombaan senjata, dan perkembangan teknologi yang ekstrem, mulai dari pesawat hingga komputer.
+                           <br><br>
+                           Dokumen Kunci: Transkrip Siaran Radio PD II, Laporan Pendaratan Apollo 11 (1969).">
+                           Lihat 580 Dokumen →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="kontak">
+        <div class="container text-center">
+            <h2 class="mb-4">Hubungi Arsiparis Kami</h2>
+            <p class="lead mb-3">Untuk pertanyaan atau sumbangan arsip, silakan hubungi tim kami.</p>
+            
+            <p class="mb-1">Alamat Email Arsip:</p>
+            <h4 style="color: var(--gold-accent);">info@arkana-sejarah.com</h4>
+            
+            <p class="mt-3 small text-secondary">Kantor Pusat Arsip: Garut Kota, Jawa Barat.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <p class="mb-0 small">&copy; 2025 Arkana Sejarah | Dikelola oleh Arsiparis Dunia</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="dokumenModal" tabindex="-1" aria-labelledby="dokumenModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dokumenModalLabel">Judul Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="dokumenModalBody">
+                    <p>Memuat isi dokumen...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-vintage" data-bs-dismiss="modal">Tutup Arsip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- 1. FITUR TYPEWRITER KLASIK ---
+        function startTypewriter(elementId, text, speed) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.textContent = ''; 
+            element.style.animation = 'none'; 
+            element.style.borderRight = `3px solid var(--sepia-dark)`;
+
+            function typeWriter() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                     element.style.borderRight = 'none';
+                }
+            }
+            typeWriter();
+        }
+
+        // --- 2. FITUR LABORATOURIUM: DEKRIPSI MANUSKRIP ---
+        function dekripsiManuskrip() {
+            const input = document.getElementById('manuskripInput').value;
+            const outputElement = document.getElementById('manuskripOutput');
+            
+            if (input.trim() === "") {
+                outputElement.innerHTML = "Harap masukkan teks yang ingin didekripsi.";
+                return;
+            }
+            
+            // Simulasi dekripsi
+            const result = `"${input.toUpperCase().replace(/\s/g, " • ")}."`;
+            outputElement.innerHTML = result;
+        }
+
+        // --- 3. FITUR LABORATOURIUM: STEMPEL WAKTU KUNO ---
+        function stempelWaktu() {
+            const overlay = document.getElementById('stempelOverlay');
+            
+            // Dapatkan tanggal historis acak (antara 1750 hingga 1950)
+            const startYear = 1750;
+            const endYear = 1950;
+            const randomDate = new Date(startYear + Math.random() * (endYear - startYear), Math.random() * 12, Math.random() * 28);
+            
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = randomDate.toLocaleDateString('id-ID', options).toUpperCase();
+            
+            overlay.textContent = `ARSIP TERSTAMPEL: ${formattedDate}`;
+            overlay.classList.add('stempel-show');
+
+            // Hapus stempel setelah 2 detik
+            setTimeout(() => {
+                overlay.classList.remove('stempel-show');
+            }, 2000);
+        }
+
+        // --- 4. MODAL INTERAKTIF & INITIAL LOAD ---
+        document.addEventListener('DOMContentLoaded', function () {
+            // Setup Modal Dokumen
+            const dokumenModal = document.getElementById('dokumenModal');
+            if (dokumenModal) {
+                dokumenModal.addEventListener('show.bs.modal', event => {
+                    const button = event.relatedTarget;
+                    
+                    const title = button.getAttribute('data-title');
+                    const content = button.getAttribute('data-content');
+
+                    const modalTitle = dokumenModal.querySelector('.modal-title');
+                    const modalBody = dokumenModal.querySelector('.modal-body');
+
+                    modalTitle.textContent = title;
+                    modalBody.innerHTML = content.replace(/###/g, '<h4>') + '<hr><p class="small text-end">Arsip digital ini hanya ringkasan. Dokumen asli tersimpan aman di vault.</p>';
+                });
+            }
+            
+            // Setup Collapse Pengumuman Lama (Mengubah teks tombol)
+            const arsipLamaCollapse = document.getElementById('arsipLama');
+            const toggleBtn = document.getElementById('toggleArsipBtn');
+
+            if (arsipLamaCollapse && toggleBtn) {
+                arsipLamaCollapse.addEventListener('shown.bs.collapse', function () {
+                    toggleBtn.textContent = 'Tutup Arsip Lama ↑';
+                });
+
+                arsipLamaCollapse.addEventListener('hidden.bs.collapse', function () {
+                    toggleBtn.textContent = 'Lihat Semua Pengumuman Lama →';
+                });
+            }
+            
+            // Jalankan Typewriter di Header
+            const targetText = 'Jendela Masa Silam';
+            startTypewriter('typewriter-text', targetText, 100); 
+        });
+
+
+        // --- 5. GALERI INTERAKTIF (LOAD MORE) ---
+        const galleryData = [
+            { title: "Kapal Titanic", description: "Kapal yang dijuluki The Unsinkable Ship, karam pada 1912.", img: "kapal-titanic-dwsuD.jpg" },
+            { title: "Perang Dunia II", description: "Dokumentasi tentara Sekutu di Normandy, 1944.", img: "normandi.jpg" },
+            { title: "Julius Robert Oppenheimer", description: "Bapak bom atom di balik hancurnya Hiroshima dan Nagasaki.", img: "oppenheimer.jpeg" }
+        ];
+
+        let currentIndex = 0; 
+        const galleryRow = document.getElementById('gallery-row-content');
+        const loadMoreBtn = document.getElementById('load-more-btn');
+
+        function createCard(item) {
+            return `
+                <div class="col-md-4 mb-4">
+                    <div class="card card-vintage h-100">
+                        <img src="${item.img}" class="card-img-top card-img-vintage" alt="${item.title}" height="250" style="object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: var(--gold-accent);">${item.title}</h5>
+                            <p class="card-text small">${item.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadMorePhotos() {
+            if (currentIndex < galleryData.length) {
+                const nextItem = galleryData[currentIndex];
+                galleryRow.insertAdjacentHTML('beforeend', createCard(nextItem));
+                currentIndex++;
+            }
+            if (currentIndex >= galleryData.length) {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = 'Semua Arsip Telah Dimuat';
+            }
+        }
+
+        loadMoreBtn.addEventListener('click', loadMorePhotos);
+
+        // --- 6. NAVIGASI SMOOTH SCROLL ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const mainNavHeight = document.getElementById('mainNav').offsetHeight;
+                const targetElement = document.querySelector(this.getAttribute('href'));
+                
+                if (targetElement) {
+                     window.scrollTo({
+                        top: targetElement.offsetTop - mainNavHeight - 15,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
